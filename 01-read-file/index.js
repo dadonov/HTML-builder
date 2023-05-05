@@ -1,15 +1,7 @@
-const path = require('path');
 const fs = require('fs');
 const { stdout } = require('process');
+const path = require('path');
 
-fs.readFile(
-  path.join(__dirname, 'text.txt'),
-  'utf-8',
-  (err, data) => {
-    if (err) {
-      throw new Error('File doesn\'t exist');
-    } else {
-      stdout.write(data);
-    }
-  }
-)
+const filePath = path.join(__dirname, "text.txt")
+const readStream = fs.createReadStream(filePath, 'utf-8');
+readStream.on('data', chunk => stdout.write(chunk));
