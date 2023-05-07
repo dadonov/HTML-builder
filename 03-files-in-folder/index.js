@@ -4,11 +4,6 @@ const path = require('path');
 const { readdir } = require('fs/promises');
 
 
-function convertToKb(bytes) {
-  const kiloBytes = (bytes / 1000).toFixed(3);
-  return `${kiloBytes}kb`
-}
-
 async function readFiles() {
   const folderPath = path.join(__dirname, 'secret-folder');
   const files = await readdir(folderPath, { withFileTypes: true });
@@ -21,7 +16,7 @@ async function readFiles() {
           const fileExtension = path.extname(file.name).slice(1);
           const fileSize = stats.size;
 
-          stdout.write(`${fileName} - ${fileExtension} - ${convertToKb(fileSize)}\n`)
+          stdout.write(`${fileName} - ${fileExtension} - ${fileSize} bytes\n`)
         })
     }
   });
