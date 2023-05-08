@@ -31,11 +31,7 @@ async function buildPage() {
     let template = await readFile(TEMPLATE_PATH, 'utf8');
     // Finding all the tags in template.html
     const tagRegex = /{{(.*?)}}/g;
-    const tags = [];
-    let match;;
-    while ((match = tagRegex.exec(template)) !== null) {
-      tags.push(match[1]);
-    }
+    const tags = Array.from(template.matchAll(tagRegex), match => match[1]);
 
     // Substituting tags with components
     for (const tag of tags) {
@@ -49,11 +45,11 @@ async function buildPage() {
 
     // Building .css from styles folder
     const styleFiles = await readdir(STYLES_DIR);
-    const styles = await Promise.all(styleFiles.map((file) => {
+    const stylePromises = styleFiles.map((file) => {
       const filePath = join(STYLES_DIR, file);
       return readFile(filePath, 'utf8');
-    })
-    );
+    });
+    const styles = await Promise.all(stylePromises);
 
     // Writing built styles to style.css
     const combinedStyles = styles.join('\n');
