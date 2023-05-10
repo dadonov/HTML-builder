@@ -16,8 +16,8 @@ stdout.write('text.txt has been created\n')
 stdout.write('Edit mode on. Press Ctrl-C or enter \'exit\' to exit\n');
 
 stdin.on('data', (data) => {
-  const stringifiedData = data.toString();
-  if (stringifiedData === 'exit\n') {
+  const stringifiedData = data.toString().trim();
+  if (stringifiedData === 'exit') {
     stdout.write('Edit mode off\n');
     exit();
   }
